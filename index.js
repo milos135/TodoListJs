@@ -15,30 +15,45 @@ let formValidation = () => {
     acceptData();
   }
 };
-let data = {};
+let data = [];
 
 let acceptData = () => {
-  data["text"] = input.value;
+  data.push({
+    text: input.value,
+  });
+  localStorage.setItem("data", JSON.stringify(data));
   createPost();
 };
 let createPost = () => {
-  posts.innerHTML += ` <div id="tasks">
-  <div class="task">
-    <div class="content">
-      ${data.text}
-    </div>
-    <div class="actions">
-      <button  onClick="editPost(this)" class="edit">Edit</button>
-      <button onClick="deletePost(this)" class="delete">Delete</button>
-    </div>
-  </div>`;
+  posts.innerHTML = "";
+  data.map((x, y) => {
+    return (posts.innerHTML += ` <div id=${y}><div id="tasks">
+    <div class="task">
+      <div class="content">
+        ${x.text}
+      </div>
+      <div class="actions">
+        <button  onClick="editPost(this)" class="edit">Edit</button>
+        <button onClick="deletePost(this)" class="delete">Delete</button>
+      </div>
+    </div> </div>`);
+  });
+
   input.value = "";
 };
 
 let deletePost = (e) => {
   e.parentElement.parentElement.remove();
+  data.splice(e.parentElement.parentElement.id, 1);
+  localStorage.setItem("data", JSON.stringify(data));
 };
 let editPost = (e) => {
-  input.value = e.parentElement.previousElementSibling.innerHTML;
-  e.parentElement.parentElement.remove();
+  let selectedTask = e.parentElement.parentElement;
+  input.value = selectedTask.children[0].innerHTML;
+  deletePost(e);
 };
+(() => {
+  data = JSON.parse(localStorage.getItem("data")) || [];
+  console.log(data);
+  createPost();
+})();
