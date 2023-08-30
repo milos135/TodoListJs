@@ -7,36 +7,32 @@ form.addEventListener("submit", (e) => {
   e.preventDefault();
   formValidation();
 });
+
 let formValidation = () => {
   if (input.value === "") {
     message.innerHTML = "Input field can not be blank...";
   } else {
     message.innerHTML = "";
-    storeData();
-    lineThrough();
+    createPostAndStoreData();
   }
 };
 let data = [];
 
-let storeData = () => {
+let createPostAndStoreData = () => {
   data.push({
     text: input.value,
   });
   localStorage.setItem("data", JSON.stringify(data));
-  createPost();
+  displayHtml();
 };
-let createPost = () => {
+let displayHtml = () => {
   posts.innerHTML = "";
   data.map(
-    (x, y) =>
+    (x, i) =>
       (posts.innerHTML += `
-     
       <div class="task">
-     
+      <input type="checkbox" id="checkbox${i}"  onChange="handleCheckbox(id,this)" />
       <div class="content">
-    
-      
-    
         ${x.text}
       </div>
       <div class="actions">
@@ -44,7 +40,6 @@ let createPost = () => {
         <button onClick="deletePost(this)" class="delete">Delete</button>
       </div>
     </div>
-    
      `)
   );
 
@@ -58,14 +53,21 @@ let deletePost = (e) => {
 };
 let editPost = (e) => {
   let selectedTask = e.parentElement.parentElement;
-
-  input.value = selectedTask.children[0].innerText;
-
+  input.value = selectedTask.children[1].innerText;
   deletePost(e);
 };
 
 (() => {
   data = JSON.parse(localStorage.getItem("data")) || [];
-
-  createPost();
+  displayHtml();
 })();
+
+function handleCheckbox(id, el) {
+  let checkbox = document.getElementById(id);
+  const inText = el.parentElement.children[1];
+  if (checkbox.checked) {
+    inText.style.textDecoration = "line-through";
+  } else {
+    inText.style.textDecoration = "none";
+  }
+}

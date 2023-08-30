@@ -118,10 +118,6 @@ main {
   transition: 0.4s;
 }
 
-.task .content {
-  flex: 1 1 0%;
-}
-
 .task .content .text {
   color: var(--light);
   font-size: 1.25rem;
@@ -163,10 +159,4 @@ label {
   margin-right: auto;
   text-align: center;
   font-weight: 800;
-}
-#checkbox {
-  margin-left: 10px;
-}
-#checkbox:checked {
-  text-decoration: "line-through";
 }
