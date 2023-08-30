@@ -167,3 +167,6 @@ label {
 #checkbox {
   margin-left: 10px;
 }
+#checkbox:checked {
+  text-decoration: "line-through";
+}

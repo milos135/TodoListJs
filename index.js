@@ -2,7 +2,6 @@ let form = document.getElementById("new-task-form");
 let input = document.getElementById("new-task-input");
 let message = document.getElementById("message");
 let posts = document.getElementById("tasks");
-let checkbox = document.getElementById("checkbox");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -11,12 +10,10 @@ form.addEventListener("submit", (e) => {
 let formValidation = () => {
   if (input.value === "") {
     message.innerHTML = "Input field can not be blank...";
-  } else if (!checkbox.checked) {
-    message.innerHTML = "The field must be checked first";
   } else {
     message.innerHTML = "";
     storeData();
-    checkbox.checked = false;
+    lineThrough();
   }
 };
 let data = [];
@@ -31,17 +28,24 @@ let storeData = () => {
 let createPost = () => {
   posts.innerHTML = "";
   data.map(
-    (x) =>
+    (x, y) =>
       (posts.innerHTML += `
-    <div class="task">
+     
+      <div class="task">
+     
       <div class="content">
+    
+      
+    
         ${x.text}
       </div>
       <div class="actions">
         <button  onClick="editPost(this)" class="edit">Edit</button>
         <button onClick="deletePost(this)" class="delete">Delete</button>
       </div>
-    </div>`)
+    </div>
+    
+     `)
   );
 
   input.value = "";
