@@ -31,7 +31,7 @@ let displayHtml = () => {
     (task, index) =>
       (posts.innerHTML += `
       <div class="task" ${index}>
-      <input type="checkbox" id="checkbox${index}"  onChange="handleCheckbox(id,this)" />
+      <input type="checkbox" id="checkbox"  onChange="handleCheckbox(id,this)" />
       <div class="content">
         ${task.text}
       </div>

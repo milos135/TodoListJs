@@ -117,14 +117,16 @@ main {
   text-transform: uppercase;
   transition: 0.4s;
 }
-
-.task .content .text {
-  color: var(--light);
-  font-size: 1.25rem;
+.task.content {
   width: 100%;
   display: block;
   transition: 0.4s;
   margin: auto;
+}
+
+.task .content .text {
+  color: var(--light);
+  font-size: 1.25rem;
 }
 
 .task .actions button:hover {
