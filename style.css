@@ -124,6 +124,7 @@ main {
   width: 100%;
   display: block;
   transition: 0.4s;
+  margin: auto;
 }
 
 .task .actions button:hover {
