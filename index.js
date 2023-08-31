@@ -30,16 +30,17 @@ let displayHtml = () => {
   data.map(
     (task, index) =>
       (posts.innerHTML += `
-      <div class="task" ${index}>
-      <input type="checkbox" id="checkbox"  onChange="handleCheckbox(id,this)" />
+      <div class="task"key="${index}" >
+      <input type="checkbox" id="checkbox${index}"  onChange="handleCheckbox(id,this)" />
       <div class="content">
-        ${task.text}
+       ${task.text}
       </div>
       <div class="actions">
         <button  onClick="editPost(this)" class="edit">Edit</button>
         <button onClick="deletePost(this)" class="delete">Delete</button>
       </div>
       </div>
+      
       
      `)
   );
