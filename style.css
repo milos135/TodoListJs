@@ -18,8 +18,9 @@
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  color: #fff;
+  min-height: 300vh;
+  color: var(--light);
+  font-size: larger;
   background-color: var(--dark);
 }
 
@@ -99,7 +100,7 @@ main {
 #tasks .task {
   display: flex;
   justify-content: space-between;
-  background-color: var(--darkest);
+  background-color: var(--purple);
   padding: 1rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -122,11 +123,13 @@ main {
   display: block;
   transition: 0.4s;
   margin: auto;
+  font-weight: 300;
 }
 
 .task .content .text {
   color: var(--light);
   font-size: 1.25rem;
+  text-align: center;
 }
 
 .task .actions button:hover {
@@ -138,9 +141,12 @@ main {
 }
 
 .task .actions .edit {
-  background-image: linear-gradient(to right, var(--pink), var(--purple));
+  background-image: linear-gradient(to right, var(--crimson), var(--purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.edit-input {
+  font-size: 20px;
 }
 
 .task .actions .delete {
@@ -156,7 +162,7 @@ main {
 }
 
 label {
-  color: var(--grey);
+  color: var(--light);
   font-size: 1.125rem;
   margin-left: auto;
   margin-right: auto;

@@ -13,26 +13,39 @@ let formValidation = () => {
     message.innerHTML = "Input field can not be blank...";
   } else {
     message.innerHTML = "";
-    createPostAndStoreData();
+    renderTasks();
   }
 };
-let data = [];
 
-let createPostAndStoreData = () => {
-  data.push({
+let tasks = [];
+
+const saveTasksToLocalState = () =>
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+
+let renderTasks = () => {
+  tasks.push({
     text: input.value,
+    isDone: false,
   });
-  localStorage.setItem("data", JSON.stringify(data));
+  saveTasksToLocalState();
   displayHtml();
 };
+
 let displayHtml = () => {
   posts.innerHTML = "";
-  data.map(
+  tasks.map(
     (task, index) =>
       (posts.innerHTML += `
       <div class="task"key="${index}" >
-      <input type="checkbox" id="checkbox${index}"  onChange="handleCheckbox(id,this)" />
-      <div class="content">
+      <input type="checkbox" id="checkbox${index}" ${
+        task.isDone ? "checked" : ""
+      }
+      
+       onChange="handleCheckbox(id,this)" 
+      />
+      <div class="content" style="text-decoration: ${
+        task.isDone ? "line-through" : "none"
+      };">
        ${task.text}
       </div>
       <div class="actions">
@@ -50,26 +63,54 @@ let displayHtml = () => {
 
 let deletePost = (e) => {
   e.parentElement.parentElement.remove();
-  data.splice(e.parentElement.parentElement.id, 1);
-  localStorage.setItem("data", JSON.stringify(data));
+  tasks.splice(e.parentElement.parentElement.id, 1);
+  saveTasksToLocalState();
 };
-let editPost = (e) => {
-  let selectedTask = e.parentElement.parentElement;
-  input.value = selectedTask.children[1].innerText;
-  deletePost(e);
-};
+// ...
 
-(() => {
-  data = JSON.parse(localStorage.getItem("data")) || [];
-  displayHtml();
-})();
+let editPost = (e) => {
+  const selectedTask = e.parentElement.parentElement;
+  const taskIndex = selectedTask.getAttribute("key");
+
+  const contentDiv = selectedTask.querySelector(".content");
+  const editButton = selectedTask.querySelector(".edit");
+
+  if (tasks[taskIndex]) {
+    if (tasks[taskIndex].isEditing) {
+      const updatedText = contentDiv.querySelector("input").value;
+      tasks[taskIndex].text = updatedText;
+      contentDiv.innerHTML = `<span style="font-size: inherit">${updatedText}</span>`;
+      editButton.textContent = "Edit";
+    } else {
+      const taskText = tasks[taskIndex].text;
+      contentDiv.innerHTML = `<input type="text" value="${taskText}" style="font-size: inherit" />`;
+      editButton.textContent = "Update";
+      tasks[taskIndex].currentText = taskText;
+    }
+
+    tasks[taskIndex].isEditing = !tasks[taskIndex].isEditing;
+    saveTasksToLocalState();
+  }
+};
 
 function handleCheckbox(id, el) {
   let checkbox = document.getElementById(id);
-  const inText = el.parentElement.children[1];
+
+  const taskText = el.parentElement.children[1];
+  const parentKey = el.parentElement.getAttribute("key");
+
+  tasks[parentKey] ? (tasks[parentKey].isDone = checkbox.checked) : null;
+
+  saveTasksToLocalState();
+
   if (checkbox.checked) {
-    inText.style.textDecoration = "line-through";
+    taskText.style.textDecoration = "line-through";
   } else {
-    inText.style.textDecoration = "none";
+    taskText.style.textDecoration = "none";
   }
 }
+
+(() => {
+  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  displayHtml();
+})();
