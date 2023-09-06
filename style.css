@@ -57,6 +57,7 @@ button {
   margin-right: 1rem;
   color: var(--light);
   font-size: 1.25rem;
+  word-wrap: break-word;
 }
 
 #new-task-input::placeholder {
@@ -118,12 +119,15 @@ main {
   text-transform: uppercase;
   transition: 0.4s;
 }
-.task.content {
-  width: 100%;
+.task .content {
+  width: 70%;
   display: block;
   transition: 0.4s;
   margin: auto;
   font-weight: 300;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .task .content .text {
